@@ -1,22 +1,34 @@
-import React, { Component } from "react";
-import GuessCount from "./GuessCount";
-import Card from "./Card";
-import "./App.css";
+import React, { Component } from 'react'
+import shuffle from 'lodash.shuffle'
 
-const Greeter = ({ whom }) => (
-  <button onClick={() => console.log(`Bonjour ${whom}`)}>
-    Vas-y, clique !
-  </button>
-);
+import './App.css'
+
+import Card from './Card'
+import GuessCount from './GuessCount'
+
+const SIDE = 6
+const SYMBOLS = '😀🎉💖🎩🐶🐱🦄🐬🌍🌛🌞💫🍎🍌🍓🍐🍟🍿'
 
 class App extends Component {
+  cards = this.generateCards()
+
+  generateCards() {
+    const result = []
+    const size = SIDE * SIDE
+    const candidates = shuffle(SYMBOLS)
+    while (result.length < size) {
+      const card = candidates.pop()
+      result.push(card, card)
+    }
+    return shuffle(result)
+  }
+
   handleCardClick(card) {
-    console.log(card, "clicked");
+    console.log(card, 'clicked')
   }
 
   render() {
-    const won = new Date().getSeconds() % 2 === 0;
-    const gagne = "gagné!".toUpperCase();
+    const won = new Date().getSeconds() % 2 === 0
     return (
       <div className="memory">
         <GuessCount guesses={0} />
@@ -30,11 +42,10 @@ class App extends Component {
         <Card card="🎩" feedback="visible" onClick={this.handleCardClick} />
         <Card card="🐶" feedback="hidden" onClick={this.handleCardClick} />
         <Card card="🐱" feedback="justMatched" onClick={this.handleCardClick} />
-        {won && <p>{gagne}</p>}
-        {/* <Greeter whom="Roberto" /> */}
+        {won && <p>GAGNÉ !</p>}
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
