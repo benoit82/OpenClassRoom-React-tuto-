@@ -15,6 +15,8 @@ class App extends Component {
   }
 
   render() {
+    const won = new Date().getSeconds() % 2 === 0;
+    const gagne = "gagné!".toUpperCase();
     return (
       <div className="memory">
         <GuessCount guesses={0} />
@@ -28,6 +30,7 @@ class App extends Component {
         <Card card="🎩" feedback="visible" onClick={this.handleCardClick} />
         <Card card="🐶" feedback="hidden" onClick={this.handleCardClick} />
         <Card card="🐱" feedback="justMatched" onClick={this.handleCardClick} />
+        {won && <p>{gagne}</p>}
         {/* <Greeter whom="Roberto" /> */}
       </div>
     );
